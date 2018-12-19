@@ -20,12 +20,12 @@
 
 // (stolen from Matthew Heironimus @ https://github.com/MHeironimus/ArduinoJoystickLibrary)
 
-#include "G27PedalsShifter.h"
+#include "G27PedalsShifterhandbrake.h"
 
 #if defined(_USING_HID)
 
 #define G27_REPORT_ID 0x03
-#define G27_STATE_SIZE 9
+#define G27_STATE_SIZE 10
 
 static const uint8_t _hidReportDescriptor[] PROGMEM = {
 	// Joystick
@@ -56,7 +56,8 @@ static const uint8_t _hidReportDescriptor[] PROGMEM = {
 	0x09, 0x30,		              //     USAGE (x)
 	0x09, 0x31,		              //     USAGE (y)
 	0x09, 0x32,		              //     USAGE (z)
-	0x95, 0x03,		              //     REPORT_COUNT (3)
+	0x09, 0x33,		              //     USAGE (rx)
+	0x95, 0x04,		              //     REPORT_COUNT (4)
 	0x81, 0x02,		              //     INPUT (Data,Var,Abs)
 	0xc0,				      //   END_COLLECTION
 
@@ -73,6 +74,7 @@ G27_::G27_()
 	xAxis = 0;
 	yAxis = 0;
 	zAxis = 0;
+	xAxisRotation = 0;
 	buttons = 0;
 }
 
@@ -124,6 +126,12 @@ void G27_::setZAxis(uint16_t value)
 	if (autoSendState) sendState();
 }
 
+void Joystick_::setXAxisRotation(int16_t value)
+{
+	xAxisRotation = value;
+	if (autoSendState) sendState();
+}
+
 void G27_::sendState()
 {
 	uint8_t data[G27_STATE_SIZE];
@@ -151,6 +159,8 @@ void G27_::sendState()
         data[7] = tmp & 0xFF;
         tmp >>=8;
         data[8] = tmp & 0xFF;
+	
+	data[9] = (xAxisRotation % 360) * 0.708;
 
 	// HID().SendReport(Report number, array of values in same order as HID descriptor, length)
 	HID().SendReport(G27_REPORT_ID, data, G27_STATE_SIZE);
