@@ -160,7 +160,12 @@ void G27_::sendState()
         tmp >>=8;
         data[8] = tmp & 0xFF;
 	
-	data[9] = (xAxisRotation % 360) * 0.708;
+	tmp = xAxisRotation;
+        data[9] = tmp & 0xFF;
+        tmp >>=9;
+        data[10] = tmp & 0xFF;
+	
+	
 
 	// HID().SendReport(Report number, array of values in same order as HID descriptor, length)
 	HID().SendReport(G27_REPORT_ID, data, G27_STATE_SIZE);
