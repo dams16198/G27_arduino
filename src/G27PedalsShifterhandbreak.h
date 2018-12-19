@@ -1,5 +1,5 @@
 /*
-  G27PedalsShifter.h
+  G27PedalsShifterhandbreak.h
 
   Copyright (c) 2016, Jason Duncan
 
@@ -19,6 +19,7 @@
 */
 
 // (stolen from Matthew Heironimus @ https://github.com/MHeironimus/ArduinoJoystickLibrary)
+// (stolen from functionreturnfunction @ https://github.com/functionreturnfunction/G27_Pedals_and_Shifter)
 
 #ifndef G27_h
 #define G27_h
@@ -42,6 +43,7 @@ private:
 	uint16_t xAxis;
 	uint16_t yAxis;
 	uint16_t zAxis;
+	int16_t	 xAxisRotation;
 	uint32_t buttons;
 
 public:
@@ -53,6 +55,8 @@ public:
 	void setXAxis(uint16_t value);
 	void setYAxis(uint16_t value);
 	void setZAxis(uint16_t value);
+	
+	void setXAxisRotation(int16_t value);
 
 	void setButton(uint8_t button, uint8_t value);
 	void pressButton(uint8_t button);
