@@ -19,6 +19,7 @@
 */
 
 // (stolen from Matthew Heironimus @ https://github.com/MHeironimus/ArduinoJoystickLibrary)
+// (stolen from functionreturnfunction @ https://github.com/functionreturnfunction/G27_Pedals_and_Shifter)
 
 #include "G27PedalsShifterhandbrake.h"
 
